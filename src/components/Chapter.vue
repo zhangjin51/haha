@@ -2,7 +2,7 @@
     <div class="container" :style="styleObject">
         <img
             class="lazy"
-            v-for="(item) in 25"
+            v-for="(item) in pictureLength"
             :key="item"
             :data-original="urlFilter(item)"
             width="100%"
@@ -23,9 +23,8 @@ export default {
     },
     data() {
         return {
-            pictureLength: 16,
-            chapterBase: 102711,
             IsPC: Vue.IsPC,
+            chapterBase: 102504,
         };
     },
     computed: {
@@ -37,11 +36,105 @@ export default {
                     width: '100%',
                 }
             }
+        },
+        Catalog() {
+            let base;
+            switch(this.chapterNumber) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    base = this.chapterBase + this.chapterNumber;
+                    break;
+                case 7:
+                    base = 102603;
+                    break;
+                case 8:
+                    base = 102711;
+                    break;
+                case 9: 
+                    base = 102902;
+                    break;
+                case 10:
+                    base = 103015;
+                    break;
+                case 11:
+                    base = 103372;
+                    break;
+                case 12:
+                    base = 103528;
+                    break;
+                case 13:
+                    base = 103636;
+                    break;
+                case 14:
+                    base = 103731;
+                    break;
+                case 15:
+                    base = 103949;
+                    break;
+            }
+            return base;
+        },
+        pictureLength() {
+            let length;
+            switch(this.chapterNumber) {
+                case 0:
+                    length = 21
+                    break;
+                case 1:
+                case 2:
+                    length = 16
+                    break; 
+                case 3:
+                    length = 20
+                    break;
+                case 4:
+                    length = 19
+                    break;
+                case 5:
+                    length = 22
+                    break;
+                case 6:
+                    length = 24
+                    break;
+                case 7:
+                    length = 18
+                    break;
+                case 8:
+                    length = 21
+                    break; 
+                case 9:
+                    length = 18
+                    break; 
+                case 10:
+                    length = 22
+                    break;
+                case 11:
+                    length = 28
+                    break;
+                case 12:
+                    length = 27
+                    break;
+                case 13:
+                    length = 24
+                    break; 
+                case 14:
+                    length = 21
+                    break;
+                case 15:
+                    length = 32
+                    break;
+            }
+            return length;
         }
     },
     methods:{
         urlFilter(index) {
-            return `https://qcdna.com/files/80838/${this.chapterBase+this.chapterNumber}/${index}.jpg`
+            return `https://qcdna.com/files/80838/${this.Catalog}/${index}.jpg`
         }
     },
     mounted() {

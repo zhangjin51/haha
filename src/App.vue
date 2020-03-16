@@ -18,8 +18,9 @@ export default {
     name: "app",
     data(){
         return {
-            chapterBase: 8,
-            chapterNumber: 0
+            chapterBase: 1,
+            chapterNumber: 0,
+            vip: false
         }
     },
     components: {
@@ -32,8 +33,39 @@ export default {
             }
         },
         handleNext() {
-            this.chapterNumber++
-            this.scrollToTop();
+            if(this.chapterNumber < 1 || this.vip) {
+                this.chapterNumber++
+                this.scrollToTop();
+            }else{
+                // this.$message.error('想继续看的话请联系管理员!');
+                this.showPrompt();
+            }
+        },
+        showPrompt() {
+            this.$prompt('请输入vip账号', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+            }).then(({ value }) => {
+                if(value === "520520") {
+                    this.$message({
+                        type: 'success',
+                        message: '您好尊贵的vip'
+                    });
+                    this.vip = true;
+                    this.handleNext();
+                }else {
+                    this.$message({
+                        type: 'error',
+                        message: '您的vip账号有误'
+                    });
+                }
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });       
+            });
+      
         },
         scrollToTop() {
             document.body.scrollIntoView();
@@ -59,6 +91,7 @@ html, body{
         padding-top: 10px;
         width: 100%;
         position: fixed;
+        bottom: 20px;
         .title{
             font-size: 16px;
             font-weight: bold;
